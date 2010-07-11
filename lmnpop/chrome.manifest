@@ -1,0 +1,3 @@
+content  lmnpop .
+resource lmnpop .
+overlay chrome://browser/content chrome://lmnpop/content/fx.xul

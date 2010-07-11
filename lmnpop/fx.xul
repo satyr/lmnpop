@@ -1,0 +1,14 @@
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+ <popup id="contentAreaContextMenu">
+  <menu id="lmnpop_menu" label="lmnpop" accesskey="l" class="menuitem-iconic"
+   image="resource://lmnpop/chrome/icons/default/lmnpop.ico"
+   oncommand="lmnpop(event.target.lmn)"
+   onclick="if(event.target == this) hidePopup(), lmnpop()">
+   <menupopup id="lmnpop_menupopup"
+    onpopupshowing="lmnpop.fill(this)"
+    onpopuphidden="while(hasChildNodes()) removeChild(lastChild)"/>
+  </menu>
+ </popup>
+ <script type="application/javascript;version=1.8"
+  src="chrome://lmnpop/content/fx.js"/>
+</overlay>

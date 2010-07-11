@@ -1,0 +1,28 @@
+<?xml-stylesheet href="chrome://global/skin"?>
+<prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+ id="lpo" title="lmnpop options" width="400" height="200"
+ persist="width,height,screenX,screenY">
+ <prefpane>
+  <preferences>
+   <preference id="slc" name="extensions.lmnpop.selector" type="string"/>
+   <preference id="fmt" name="extensions.lmnpop.format"   type="string"/>
+   <preference id="rsd" name="extensions.lmnpop.raised" type="bool"/>
+   <preference id="cln" name="extensions.lmnpop.clone"  type="bool"/>
+  </preferences>
+  <grid>
+   <columns><column/><column flex="1"/></columns>
+   <rows>
+    <row align="baseline">
+     <label control="tb_slc" value="Selector" accesskey="S"/>
+     <textbox id="tb_slc" preference="slc"/>
+    </row>
+    <row align="baseline">
+     <label control="tb_fmt" value="Format" accesskey="F"/>
+     <textbox id="tb_fmt" preference="fmt"/>
+    </row>
+   </rows>
+  </grid>
+  <checkbox label="Always Raised" accesskey="A" preference="rsd"/>
+  <checkbox label="Clone Element" accesskey="C" preference="cln"/>
+ </prefpane>
+</prefwindow>
