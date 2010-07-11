@@ -1,6 +1,6 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
  <popup id="contentAreaContextMenu">
-  <menu id="lmnpop_menu" label="lmnpop" accesskey="l" class="menuitem-iconic"
+  <menu id="lmnpop_menu" label="lmnpop" accesskey="l" class="menu-iconic"
    image="resource://lmnpop/chrome/icons/default/lmnpop.ico"
    oncommand="lmnpop(event.target.lmn)"
    onclick="if(event.target == this) hidePopup(), lmnpop()">
