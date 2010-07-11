@@ -44,9 +44,9 @@ lmnpop.fill = function lp_fill(mp, ev){
   mi.setAttribute('accesskey', 'O');
 };
 lmnpop.each = function lp_each(fn, it){
-  var win = document.commandDispatcher.focusedWindow || content;
   var slc = lmnpop.pget('extensions.lmnpop.selector');
-  run(win);
+  var win = document.commandDispatcher.focusedWindow;
+  run(win && win != self ? win : win = content);
   Array.forEach(win, run);
   function run(win){
     var ls = win.document.querySelectorAll(slc), s = win.getSelection();
@@ -76,3 +76,9 @@ lmnpop.frmt = function lp_frmt(str, lmn) str.replace(/{.+?}/g, function($){
   }
   return '';
 }).trim();
+
+addEventListener('load', function(){
+  var ep = document.getElementById('menu_EditPopup');
+  ep.appendChild(document.createElement('menuseparator'));
+  ep.appendChild(document.querySelector('.lmnpop').cloneNode(true));
+}, false);
