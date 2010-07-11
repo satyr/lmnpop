@@ -6,6 +6,7 @@
   <preferences>
    <preference id="slc" name="extensions.lmnpop.selector" type="string"/>
    <preference id="fmt" name="extensions.lmnpop.format"   type="string"/>
+   <preference id="fls" name="extensions.lmnpop.flash"    type="string"/>
    <preference id="rsd" name="extensions.lmnpop.raised" type="bool"/>
    <preference id="cln" name="extensions.lmnpop.clone"  type="bool"/>
   </preferences>
@@ -19,6 +20,10 @@
     <row align="baseline">
      <label control="tb_fmt" value="Format" accesskey="F"/>
      <textbox id="tb_fmt" preference="fmt"/>
+    </row>
+    <row align="baseline">
+     <label control="tb_fls" value="Flash" accesskey="l"/>
+     <textbox id="tb_fls" preference="fls"/>
     </row>
    </rows>
   </grid>

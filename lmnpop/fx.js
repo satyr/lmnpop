@@ -10,10 +10,22 @@ function lmnpop(lmn){
   return lpo;
 }
 lmnpop.fill = function lp_fill(mp, ev){
+  var fcss = lmnpop.pget('extensions.lmnpop.flash');
+  function flash(){
+    var {lmn} = this, stl = lmn.style, ocss = stl.outline, i = 6;
+    setTimeout(function loop(on){
+      if(--i){
+        stl.outline = on ? 'none' : fcss;
+        setTimeout(loop, 333, !on);
+      } else stl.outline = ocss;
+    }, 0, false);
+    lmn.scrollIntoView();
+  }
   lmnpop.each(function(lmn){
     var mi = document.createElement('menuitem');
     mi.setAttribute('label', lmnpop.frmt(this, lmn));
     mi.setAttribute('crop', 'center');
+    fcss && mi.addEventListener('DOMMenuItemActive', flash, false);
     mp.appendChild(mi).lmn = lmn;
   }, lmnpop.pget('extensions.lmnpop.format'));
   if(mp.hasChildNodes()){
