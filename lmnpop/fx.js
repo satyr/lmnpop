@@ -10,12 +10,10 @@ function lmnpop(element){
 lmnpop.fill = function lp_fill(mp){
   var fcss = lmnpop.pget('flash');
   function flash(){
-    var {lmn} = this, stl = lmn.style, ocss = stl.outline, i = 6;
+    var {lmn} = this, stl = lmn.style, i = 6;
     setTimeout(function loop(on){
-      if(--i){
-        stl.outline = on ? 'none' : fcss;
-        setTimeout(loop, 333, !on);
-      } else stl.outline = ocss;
+      stl.outline = on ? 'none' : fcss;
+      if(--i) setTimeout(loop, 200, !on);
     }, 0, false);
     lmn.scrollIntoView();
   }
