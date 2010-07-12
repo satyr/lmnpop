@@ -1,16 +1,14 @@
-function lmnpop(lmn){
-  if(lmn) return openDialog(
+function lmnpop(element){
+  if(element) return openDialog(
     'chrome://lmnpop/content', '_blank',
-    'resizable,dialog=0'+ (
-      lmnpop.pget('extensions.lmnpop.raised') ? ',alwaysRaised' : ''),
-    lmnpop.pget('extensions.lmnpop.clone') ? lmn.cloneNode(true) : lmn,
-    lmnpop.frmt(lmnpop.pget('extensions.lmnpop.format'), lmn));
+    'resizable,dialog=0'+ (lmnpop.pget('raised') ? ',alwaysRaised' : ''),
+    lmnpop.pget('clone') ? element.cloneNode(true) : element);
   var lpo = openDialog('chrome://lmnpop/content/lpo.xul', 'lpo');
   lpo.focus();
   return lpo;
 }
-lmnpop.fill = function lp_fill(mp, ev){
-  var fcss = lmnpop.pget('extensions.lmnpop.flash');
+lmnpop.fill = function lp_fill(mp){
+  var fcss = lmnpop.pget('flash');
   function flash(){
     var {lmn} = this, stl = lmn.style, ocss = stl.outline, i = 6;
     setTimeout(function loop(on){
@@ -27,7 +25,7 @@ lmnpop.fill = function lp_fill(mp, ev){
     mi.setAttribute('crop', 'center');
     fcss && mi.addEventListener('DOMMenuItemActive', flash, false);
     mp.appendChild(mi).lmn = lmn;
-  }, lmnpop.pget('extensions.lmnpop.format'));
+  }, lmnpop.pget('format'));
   if(mp.hasChildNodes()){
     mp.appendChild(document.createElement('menuseparator'));
     let mi = mp.appendChild(document.createElement('menuitem'));
@@ -44,7 +42,7 @@ lmnpop.fill = function lp_fill(mp, ev){
   mi.setAttribute('accesskey', 'O');
 };
 lmnpop.each = function lp_each(fn, it){
-  var slc = lmnpop.pget('extensions.lmnpop.selector');
+  var slc = lmnpop.pget('selector');
   var win = document.commandDispatcher.focusedWindow;
   run(win && win != self ? win : win = content);
   Array.forEach(win, run);
@@ -58,16 +56,14 @@ lmnpop.each = function lp_each(fn, it){
     Array.forEach(ls, fn, it);
   }
 };
-lmnpop.pget = function lp_pget(key, val){
+lmnpop.pget = function lp_pget(key){
   const PS = gPrefService;
-  switch(PS.getPrefType(key)){
+  switch(PS.getPrefType(key = 'extensions.lmnpop.'+ key)){
     case PS.PREF_STRING:
-    try { return PS.getComplexValue(key, Ci.nsIPrefLocalizedString).data }
-    catch([]){ return PS.getComplexValue(key, Ci.nsISupportsString).data }
+    return PS.getComplexValue(key, Ci.nsISupportsString).data;
     case PS.PREF_BOOL: return PS.getBoolPref(key);
     case PS.PREF_INT : return PS.getIntPref(key);
   }
-  return val;
 };
 lmnpop.frmt = function lp_frmt(str, lmn) str.replace(/{.+?}/g, function($){
   for(let [, k] in new Iterator($.slice(1, -1).split('|'))){
