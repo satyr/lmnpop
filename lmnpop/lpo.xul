@@ -1,12 +1,13 @@
 <?xml-stylesheet href="chrome://global/skin"?>
 <prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
- id="lpo" title="lmnpop options" width="400" height="200"
+ id="lpo" title="lmnpop options" width="400" height="250"
  persist="width,height,screenX,screenY">
  <prefpane>
   <preferences>
-   <preference id="slc" name="extensions.lmnpop.selector" type="string"/>
-   <preference id="fmt" name="extensions.lmnpop.format"   type="string"/>
-   <preference id="fls" name="extensions.lmnpop.flash"    type="string"/>
+   <preference id="slc" name="extensions.lmnpop.selector" type="unichar"/>
+   <preference id="fmt" name="extensions.lmnpop.format"   type="unichar"/>
+   <preference id="bst" name="extensions.lmnpop.blink.style" type="unichar"/>
+   <preference id="bsp" name="extensions.lmnpop.blink.speed" type="int"/>
    <preference id="rsd" name="extensions.lmnpop.raised" type="bool"/>
    <preference id="cln" name="extensions.lmnpop.clone"  type="bool"/>
   </preferences>
@@ -21,12 +22,18 @@
      <label control="tb_fmt" value="Format" accesskey="F"/>
      <textbox id="tb_fmt" preference="fmt"/>
     </row>
-    <row align="baseline">
-     <label control="tb_fls" value="Flash" accesskey="l"/>
-     <textbox id="tb_fls" preference="fls"/>
-    </row>
    </rows>
   </grid>
+  <groupbox>
+   <caption>Blink</caption>
+   <hbox align="baseline">
+    <label control="tb_bst" value="Style" accesskey="t"/>
+    <textbox id="tb_bst" preference="bst" flex="1"/>
+    <label control="tb_bsp" value="Speed" accesskey="p"/>
+    <textbox type="number" id="tb_bsp" preference="bsp"
+     size="4" max="1000" increment="10"/>
+   </hbox>
+  </groupbox>
   <checkbox label="Always Raised" accesskey="A" preference="rsd"/>
   <checkbox label="Clone Element" accesskey="C" preference="cln"/>
  </prefpane>

@@ -8,12 +8,13 @@ function lmnpop(element){
   return lpo;
 }
 lmnpop.fill = function lp_fill(mp){
-  var fcss = lmnpop.pget('flash');
-  function flash(){
+  var bsp = lmnpop.pget('blink.speed');
+  var bst = bsp > 0 && lmnpop.pget('blink.style');
+  function blink(){
     var {lmn} = this, stl = lmn.style, i = 6;
     setTimeout(function loop(on){
-      stl.outline = on ? 'none' : fcss;
-      if(--i) setTimeout(loop, 200, !on);
+      stl.outline = on ? 'none' : bst;
+      if(--i) setTimeout(loop, bsp, !on);
     }, 0, false);
     lmn.scrollIntoView(false);
   }
@@ -21,7 +22,7 @@ lmnpop.fill = function lp_fill(mp){
     var mi = document.createElement('menuitem');
     mi.setAttribute('label', lmnpop.frmt(this, lmn));
     mi.setAttribute('crop', 'center');
-    fcss && mi.addEventListener('DOMMenuItemActive', flash, false);
+    bst && mi.addEventListener('DOMMenuItemActive', blink, false);
     mp.appendChild(mi).lmn = lmn;
   }, lmnpop.pget('format'));
   if(mp.hasChildNodes()){
