@@ -15,7 +15,7 @@ lmnpop.fill = function lp_fill(mp){
       stl.outline = on ? 'none' : fcss;
       if(--i) setTimeout(loop, 200, !on);
     }, 0, false);
-    lmn.scrollIntoView();
+    lmn.scrollIntoView(false);
   }
   lmnpop.each(function(lmn){
     var mi = document.createElement('menuitem');
