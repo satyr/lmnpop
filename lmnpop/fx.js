@@ -59,6 +59,7 @@ lmnpop.fill = function lp_fill(mp){
       oncommand: 'lmnpop(this.lmn, event)',
     });
     mi.lmn = pn;
+    bst && mi.addEventListener('DOMMenuItemActive', blink, false);
   }
   menuitem({label: 'Options', accesskey: 'O', oncommand: 'lmnpop()'});
 };
