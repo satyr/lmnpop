@@ -2,7 +2,6 @@
  <popup id="contentAreaContextMenu">
   <menu class="lmnpop menu-iconic" label="lmnpop" accesskey="l"
    image="resource://lmnpop/chrome/icons/default/lmnpop.ico"
-   oncommand="lmnpop(event.target.lmn)"
    onclick="if(event.target == this) parentNode.hidePopup(), lmnpop()">
    <menupopup
     onpopupshowing="lmnpop.fill(this)"

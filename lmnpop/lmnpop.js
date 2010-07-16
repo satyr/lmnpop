@@ -22,6 +22,7 @@ brw.addEventListener('DOMContentLoaded', function lmnset(ev){
     slc = lmn.id ? '#'+ lmn.id : (
       lmn.tagName + [''].concat(Array.slice(lmn.classList)).join('.'));
   }
-  lmn.setAttribute('style', 'width:100%;height:100%;display:block');
-  document.title = lmnpop.frmt(lmnpop.pget('format'), lmn);
+  lmn.setAttribute(
+    'style', 'width:100%;height:100%;display:block;overflow:auto');
+  document.title = lmnpop.format(lmn);
 }, true);

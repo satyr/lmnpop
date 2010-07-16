@@ -18,30 +18,45 @@ lmnpop.fill = function lp_fill(mp){
     }, 0, false);
     lmn.scrollIntoView(false);
   }
-  lmnpop.each(function(lmn){
+  function menuitem(atrs){
     var mi = document.createElement('menuitem');
-    mi.setAttribute('label', lmnpop.frmt(this, lmn));
-    mi.setAttribute('crop', 'center');
-    bst && mi.addEventListener('DOMMenuItemActive', blink, false);
-    mp.appendChild(mi).lmn = lmn;
-  }, lmnpop.pget('format'));
-  if(mp.hasChildNodes()){
-    mp.appendChild(document.createElement('menuseparator'));
-    let mi = mp.appendChild(document.createElement('menuitem'));
-    mi.setAttribute('label', 'Pop All');
-    mi.setAttribute('accesskey', 'P');
-    mi.setAttribute('oncommand', <![CDATA[
-      Array.forEach(parentNode.querySelectorAll('menuitem[crop]'),
-                    function(mi) lmnpop(mi.lmn));
-      event.stopPropagation();
-      ]]>);
+    for(var k in atrs) mi.setAttribute(k, atrs[k]);
+    return mp.appendChild(mi);
   }
-  var mi = mp.appendChild(document.createElement('menuitem'));
-  mi.setAttribute('label', 'Options');
-  mi.setAttribute('accesskey', 'O');
+  var lmns = [], fmt = lmnpop.pget('format');
+  lmnpop.lmnumerate(lmnpop.pget('selector'), function(lmn){
+    var mi = menuitem({
+      label: lmnpop.format(lmn, fmt), crop: 'center',
+      oncommand: 'lmnpop(this.lmn)',
+    });
+    lmns.push(mi.lmn = lmn);
+    bst && mi.addEventListener('DOMMenuItemActive', blink, false);
+  });
+  if(lmns.length){
+    mp.appendChild(document.createElement('menuseparator'));
+    menuitem({
+      label: 'Pop All', accesskey: 'A', oncommand: 'this.lmns.forEach(lmnpop)',
+    }).lmns = lmns;
+    let url =
+      gContextMenu ? document.popupNode.baseURI : content.location.href;
+    menuitem({
+      label: 'Pop Window <'+ lmnpop.trim(url) +'>', accesskey: 'W',
+      oncommand: 'lmnpop(this.url)', crop: 'center',
+    }).url = url;
+  }
+  if(gContextMenu){
+    if(gContextMenu.onLink) menuitem({
+      label: 'Pop Link Location', accesskey: 'L',
+      oncommand: 'lmnpop(gContextMenu.linkURL)',
+    });
+    menuitem({
+      label: 'Pop This '+ document.popupNode.tagName, accesskey: 'T',
+      oncommand: 'lmnpop(document.popupNode)',
+    });
+  }
+  menuitem({label: 'Options', accesskey: 'O', oncommand: 'lmnpop()'});
 };
-lmnpop.each = function lp_each(fn, it){
-  var slc = lmnpop.pget('selector');
+lmnpop.lmnumerate = function lp_lmnumerate(slc, fun){
   var win = document.commandDispatcher.focusedWindow;
   run(win && win != self ? win : win = content);
   Array.forEach(win, run);
@@ -52,7 +67,7 @@ lmnpop.each = function lp_each(fn, it){
         if(s.getRangeAt(i).isPointInRange(l, 0)) return true;
       return false;
     });
-    Array.forEach(ls, fn, it);
+    Array.forEach(ls, fun);
   }
 };
 lmnpop.pget = function lp_pget(key){
@@ -64,13 +79,15 @@ lmnpop.pget = function lp_pget(key){
     case PS.PREF_INT : return PS.getIntPref(key);
   }
 };
-lmnpop.frmt = function lp_frmt(str, lmn) str.replace(/{.+?}/g, function($){
+lmnpop.format = function lp_format(lmn, str)
+(str || lmnpop.pget('format')).replace(/{.+?}/g, function($){
   for(let [, k] in new Iterator($.slice(1, -1).split('|'))){
     let v = lmn[k];
-    if(v) return String.replace(v, /^http:\/+/, '');
+    if(v) return lmnpop.trim(String(v));
   }
   return '';
 }).trim();
+lmnpop.trim = function lp_trim(u) u.replace(/^http:\/+([^/]+)(?:\/$)?/, '$1');
 
 addEventListener('load', function(){
   var ep = document.getElementById('menu_EditPopup');
