@@ -5,11 +5,16 @@ function lmnpop(lmn, vnt){
     return lpo;
   }
   vnt = vnt || {__proto__: null};
+  var cln = lmnpop.pget( 'clone') ^ vnt. ctrlKey;
+  var rsd = lmnpop.pget('raised') ^ vnt.shiftKey;
+  if(lmn instanceof Window){
+    let {href} = lmn.location;
+    cln || lmn.close();
+    lmn = href;
+  } else if(lmn instanceof Node && cln) lmn = lmn.cloneNode(true);
   return openDialog(
     'chrome://lmnpop/content', '_blank',
-    'resizable,dialog=0'+
-    (lmnpop.pget('raised') ^ vnt.shiftKey ? ',alwaysRaised' : ''),
-    lmnpop.pget('clone') ^ vnt.ctrlKey ? lmn.cloneNode(true) : lmn);
+    'resizable,dialog=0'+ (rsd ? ',alwaysRaised' : ''), lmn);
 }
 lmnpop.fill = function lp_fill(mp){
   var bsp = lmnpop.pget('blink.speed');
@@ -42,12 +47,12 @@ lmnpop.fill = function lp_fill(mp){
       label: 'Pop All', accesskey: 'A',
       oncommand: 'this.lmns.forEach(function(lmn) lmnpop(lmn, event))',
     }).lmns = lmns;
-    let url =
-      gContextMenu ? document.popupNode.baseURI : content.location.href;
+    let win = gContextMenu?
+      document.popupNode.ownerDocument.defaultView : content;
     menuitem({
-      label: 'Pop Window <'+ lmnpop.trim(url) +'>', accesskey: 'W',
-      oncommand: 'lmnpop(this.url, event)', crop: 'center',
-    }).url = url;
+      label: 'Pop Window <'+ lmnpop.trim(win.location.href) +'>',
+      accesskey: 'W', crop: 'center', oncommand: 'lmnpop(this.win, event)',
+    }).win = win;
   }
   if(gContextMenu){
     if(gContextMenu.onLink) menuitem({
