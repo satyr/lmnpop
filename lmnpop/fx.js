@@ -1,11 +1,15 @@
-function lmnpop(element){
-  if(element) return openDialog(
+function lmnpop(lmn, vnt){
+  if(!lmn){
+    let lpo = openDialog('chrome://lmnpop/content/lpo.xul', 'lpo');
+    lpo.focus();
+    return lpo;
+  }
+  vnt = vnt || {__proto__: null};
+  return openDialog(
     'chrome://lmnpop/content', '_blank',
-    'resizable,dialog=0'+ (lmnpop.pget('raised') ? ',alwaysRaised' : ''),
-    lmnpop.pget('clone') ? element.cloneNode(true) : element);
-  var lpo = openDialog('chrome://lmnpop/content/lpo.xul', 'lpo');
-  lpo.focus();
-  return lpo;
+    'resizable,dialog=0'+
+    (lmnpop.pget('raised') ^ vnt.shiftKey ? ',alwaysRaised' : ''),
+    lmnpop.pget('clone') ^ vnt.ctrlKey ? lmn.cloneNode(true) : lmn);
 }
 lmnpop.fill = function lp_fill(mp){
   var bsp = lmnpop.pget('blink.speed');
@@ -27,7 +31,7 @@ lmnpop.fill = function lp_fill(mp){
   lmnpop.lmnumerate(lmnpop.pget('selector'), function(lmn){
     var mi = menuitem({
       label: lmnpop.format(lmn, fmt), crop: 'center',
-      oncommand: 'lmnpop(this.lmn)',
+      oncommand: 'lmnpop(this.lmn, event)',
     });
     lmns.push(mi.lmn = lmn);
     bst && mi.addEventListener('DOMMenuItemActive', blink, false);
@@ -35,24 +39,26 @@ lmnpop.fill = function lp_fill(mp){
   if(lmns.length){
     mp.appendChild(document.createElement('menuseparator'));
     menuitem({
-      label: 'Pop All', accesskey: 'A', oncommand: 'this.lmns.forEach(lmnpop)',
+      label: 'Pop All', accesskey: 'A',
+      oncommand: 'this.lmns.forEach(function(lmn) lmnpop(lmn, event))',
     }).lmns = lmns;
     let url =
       gContextMenu ? document.popupNode.baseURI : content.location.href;
     menuitem({
       label: 'Pop Window <'+ lmnpop.trim(url) +'>', accesskey: 'W',
-      oncommand: 'lmnpop(this.url)', crop: 'center',
+      oncommand: 'lmnpop(this.url, event)', crop: 'center',
     }).url = url;
   }
   if(gContextMenu){
     if(gContextMenu.onLink) menuitem({
       label: 'Pop Link Location', accesskey: 'L',
-      oncommand: 'lmnpop(gContextMenu.linkURL)',
+      oncommand: 'lmnpop(gContextMenu.linkURL, event)',
     });
-    menuitem({
-      label: 'Pop This '+ document.popupNode.tagName, accesskey: 'T',
-      oncommand: 'lmnpop(document.popupNode)',
+    let pn = document.popupNode, mi = menuitem({
+      label: 'Pop This '+ pn.tagName, accesskey: 'T',
+      oncommand: 'lmnpop(this.lmn, event)',
     });
+    mi.lmn = pn;
   }
   menuitem({label: 'Options', accesskey: 'O', oncommand: 'lmnpop()'});
 };

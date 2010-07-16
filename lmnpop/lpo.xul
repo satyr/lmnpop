@@ -34,7 +34,9 @@
      size="4" max="1000" increment="10"/>
    </hbox>
   </groupbox>
-  <checkbox label="Always Raised" accesskey="A" preference="rsd"/>
-  <checkbox label="Clone Element" accesskey="C" preference="cln"/>
+  <checkbox label="Always Raised (toggle: SHIFT)"
+   accesskey="A" preference="rsd"/>
+  <checkbox label="Clone Element (toggle: CTRL)"
+   accesskey="C" preference="cln"/>
  </prefpane>
 </prefwindow>
