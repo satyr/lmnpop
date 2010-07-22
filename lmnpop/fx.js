@@ -11,7 +11,7 @@ function lmnpop(lmn, vnt){
     let {href} = lmn.location;
     cln || lmn.close();
     lmn = href;
-  } else if(lmn instanceof Node && cln) lmn = lmn.cloneNode(true);
+  } else if(cln && lmn instanceof Node) lmn = lmn.cloneNode(true);
   return openDialog(
     'chrome://lmnpop/content', '_blank',
     'resizable,dialog=0'+ (rsd ? ',alwaysRaised' : ''), lmn);
@@ -32,21 +32,21 @@ lmnpop.fill = function lp_fill(mp){
     for(var k in atrs) mi.setAttribute(k, atrs[k]);
     return mp.appendChild(mi);
   }
-  var lmns = [], fmt = lmnpop.pget('format');
-  lmnpop.lmnumerate(lmnpop.pget('selector'), function(lmn){
+  var lms = lmnpop.pick(lmnpop.pget('selector')), fmt = lmnpop.pget('format');
+  lms.forEach(function(lmn){
     var mi = menuitem({
       label: lmnpop.format(lmn, fmt), crop: 'center',
       oncommand: 'lmnpop(this.lmn, event)',
     });
-    lmns.push(mi.lmn = lmn);
+    mi.lmn = lmn;
     bst && mi.addEventListener('DOMMenuItemActive', blink, false);
   });
-  if(lmns.length){
+  if(lms.length){
     mp.appendChild(document.createElement('menuseparator'));
     menuitem({
       label: 'Pop All', accesskey: 'A',
-      oncommand: 'this.lmns.forEach(function(lmn) lmnpop(lmn, event))',
-    }).lmns = lmns;
+      oncommand: 'this.lms.forEach(function(lm) lmnpop(lm, event))',
+    }).lms = lms;
     let win = gContextMenu?
       document.popupNode.ownerDocument.defaultView : content;
     menuitem({
@@ -68,19 +68,20 @@ lmnpop.fill = function lp_fill(mp){
   }
   menuitem({label: 'Options', accesskey: 'O', oncommand: 'lmnpop()'});
 };
-lmnpop.lmnumerate = function lp_lmnumerate(slc, fun){
-  var win = document.commandDispatcher.focusedWindow;
+lmnpop.pick = function lp_pick(slc){
+  var lms = [], win = document.commandDispatcher.focusedWindow;
   run(win && win != self ? win : win = content);
   Array.forEach(win, run);
   function run(win){
-    var ls = win.document.querySelectorAll(slc), s = win.getSelection();
-    if(s && !s.isCollapsed) ls = Array.filter(ls, function(l){
-      for(var i = s.rangeCount; i--;)
-        if(s.getRangeAt(i).isPointInRange(l, 0)) return true;
-      return false;
+    var ls = Array.slice(win.document.querySelectorAll(slc));
+    var sl = win.getSelection();
+    if(sl && !sl.isCollapsed) ls = ls.filter(function(l){
+      for(var i = sl.rangeCount; i--;)
+        if(sl.getRangeAt(i).isPointInRange(l, 0)) return true;
     });
-    Array.forEach(ls, fun);
+    lms.push.apply(lms, ls);
   }
+  return lms;
 };
 lmnpop.pget = function lp_pget(key){
   const PS = gPrefService;
