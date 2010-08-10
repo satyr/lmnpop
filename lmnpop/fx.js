@@ -48,7 +48,7 @@ lmnpop.fill = function lp_fill(mp){
       oncommand: 'this.lms.forEach(function(lm) lmnpop(lm, event))',
     }).lms = lms;
     let win = gContextMenu?
-      document.popupNode.ownerDocument.defaultView : content;
+      document.commandDispatcher.focusedWindow : content;
     menuitem({
       label: 'Pop Window <'+ lmnpop.trim(win.location.href) +'>',
       accesskey: 'W', crop: 'center', oncommand: 'lmnpop(this.win, event)',
@@ -59,7 +59,7 @@ lmnpop.fill = function lp_fill(mp){
       label: 'Pop Link Location', accesskey: 'L',
       oncommand: 'lmnpop(gContextMenu.linkURL, event)',
     });
-    let pn = document.popupNode, mi = menuitem({
+    let pn = gContextMenu.target, mi = menuitem({
       label: 'Pop This '+ pn.tagName, accesskey: 'T',
       oncommand: 'lmnpop(this.lmn, event)',
     });
