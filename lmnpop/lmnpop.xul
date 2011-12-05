@@ -4,5 +4,8 @@
  width="300" height="200">
  <browser type="content-primary" id="browser" flex="1"
   disablesecurity="true" disablehistory="true"/>
+ <keyset>
+  <key key="W" modifiers="accel" oncommand="close()"/>
+ </keyset>
  <script type="application/javascript;version=1.8" src="lmnpop.js"/>
 </window>
