@@ -3,38 +3,39 @@ is a [Firefox](http://firefox.com) extension that lets you choose HTML elements 
 
 ##actions
 
-- __Pop All__
+###Pop All
 
-  Pops all matching elements.
+Pops all matching elements.
 
-- __Pop This__
+###Pop This
 
-  Pops the pointed element.
+Pops the pointed element.
 
-- __Pop Window/Location__
+###Pop Window/Location
 
-  Instead of popping an element, pops the whole page and then reduces to the first matching element.
+Instead of popping an element, pops the whole page and then reduces to the first matching element.
 
 
 ##options
 
-- __Selector__
+###Selector
 
-  CSS that matches elements to be listed.
+CSS that matches elements to be listed.
 
-- __Format__
+###Format
 
-  Specifies how matching elements are displayed.
+Specifies how matching elements are displayed.
 
-- __Blink__
+###Blink
 
-  Configures the blinking shown on hovering over listed elements.
-  Speed `0` means turning it off.
+Configures the blinking shown on hovering over listed elements.
+Speed `0` means turning it off.
 
-- __Always Raised__
+###Always Raised
 
-  Whether or not the popup will be placed on top of other windows.
+Whether or not the popup will be placed on top of other windows.
+May not work on Mac/Linux.
 
-- __Clone Element__
+###Clone Element
 
-  Whether or not the original element is preserved.
+Whether or not the original element is preserved.
