@@ -7,9 +7,7 @@ if(!(lmn instanceof Element)){
 }
 this.onload = function onload(){
   var brw = document.getElementById('browser')
-  brw.setAttribute('src', url ||
-    'data:text/html,<!--lmnpop-->'+
-    encodeURIComponent(<base href={lmn.baseURI}/>.toXMLString()))
+  brw.setAttribute('src', url || base(lmn.baseURI))
   brw.addEventListener('DOMContentLoaded', function lmnset(ev){
     var doc = content.document
       , htm = doc.documentElement
@@ -33,4 +31,10 @@ this.onload = function onload(){
       target.innerHTML = lmn.outerHTML
     }
   }, true)
+}
+function base(url){
+  var bs = document.createElementNS('http://www.w3.org/1999/xhtml', 'base')
+  bs.setAttribute('href', url)
+  return 'data:text/html;charset=UTF-8,<!--lmnpop-->'+
+         encodeURIComponent(bs.outerHTML)
 }

@@ -94,7 +94,7 @@ lmnpop.pget = function lp_pget(key){
 };
 lmnpop.format = function lp_format(lmn, str)
 (str || lmnpop.pget('format')).replace(/{.+?}/g, function($){
-  for(let [, k] in new Iterator($.slice(1, -1).split('|'))){
+  for(let k of $.slice(1, -1).split('|')){
     let v = lmn[k];
     if(v) return lmnpop.trim(String(v));
   }
