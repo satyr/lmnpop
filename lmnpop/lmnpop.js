@@ -13,22 +13,24 @@ this.onload = function onload(){
   brw.addEventListener('DOMContentLoaded', function lmnset(ev){
     var doc = content.document
       , htm = doc.documentElement
+    htm.setAttribute('style', 'height:100%')
     if(slc){
       if(!(lmn = doc.querySelector(slc))) return
-      while(htm.hasChildNodes()) htm.removeChild(htm.lastChild)
-      htm.appendChild(lmn)
+      set(htm)
     } else {
       let {body} = doc
       body.setAttribute('style', 'margin:0')
-      lmn = body.appendChild(doc.adoptNode(lmn))
+      set(body)
       slc = lmn.id
           ? '#'+ lmn.id
           : lmn.tagName + [''].concat(Array.slice(lmn.classList)).join('.')
     }
-    htm.setAttribute(
-      'style', 'height:100%')
-    lmn.setAttribute(
-      'style', 'width:100%;height:100%;display:block;overflow:auto')
-    document.title = lmnpop.format(lmn)
+    function set(target){
+      document.title = lmnpop.format(lmn)
+      if(lmn.parentNode) lmn.parentNode.removeChild(lmn)
+      lmn.setAttribute(
+        'style', 'width:100%;height:100%;display:block;overflow:auto')
+      target.innerHTML = lmn.outerHTML
+    }
   }, true)
 }
