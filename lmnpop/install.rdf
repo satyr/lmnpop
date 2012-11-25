@@ -3,7 +3,7 @@
  ><Description about="urn:mozilla:install-manifest"
  m:id="lmnpop@satyr.github.com"
  m:name="lmnpop"
- m:version="20120518"
+ m:version="20121125"
  m:creator="satyr"
  m:description="Pops elements as resizable windows."
  m:iconURL="chrome://lmnpop/content/chrome/icons/default/lmnpop.ico"
@@ -13,6 +13,6 @@
  m:unpack="true"
  ><m:targetApplication><!--Firefox--><Description
    m:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-   m:minVersion="4.0"
-   m:maxVersion="15.0a1"
+   m:minVersion="17.0"
+   m:maxVersion="20.0a1"
    /></m:targetApplication></Description></RDF>
