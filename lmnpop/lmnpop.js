@@ -23,10 +23,9 @@ this.onload = function onload(){
           ? '#'+ lmn.id
           : lmn.tagName + [''].concat(Array.slice(lmn.classList)).join('.')
     }
-    Array.slice(doc.plugins).forEach(function(plugin){
-      plugin.QueryInterface(Components.interfaces.nsIObjectLoadingContent)
-      if (!plugin.activated) plugin.playPlugin()
-    })
+    for(let plugin of doc.querySelectorAll('embed, object'))
+      if(plugin instanceof Components.interfaces.nsIObjectLoadingContent)
+        plugin.activated || plugin.playPlugin()
     function set(target){
       document.title = lmnpop.format(lmn)
       if(lmn.parentNode) lmn.parentNode.removeChild(lmn)
